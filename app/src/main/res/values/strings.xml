@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">BakingApp</string>
+
+    <string name="app_recipe_name">Strudel</string>
+    <string name="app_recipe_servings">Servings: %1$d</string>
+    <string name="app_recipe_image">Strudel Image</string>
+    <string name="app_recipe_steps">Click here to follow step by step preparation</string>
+
+    <string name="app_step_previous">Previous</string>
+    <string name="app_step_next">Next</string>
+
+    <string name="app_recipe_quantity">%1$.1f %2$s</string>
+
+    <string name="app_recipe_ingredients_label">Ingredients</string>
+    <string name="app_recipe_steps_label">Steps</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="app_menu_follow">Follow</string>
+    <string name="app_menu_steps">Steps</string>
+
+</resources>

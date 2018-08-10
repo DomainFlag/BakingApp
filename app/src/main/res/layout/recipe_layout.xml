@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/recipe_layout"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/activity_margin_component">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:contentPadding="@dimen/activity_margin_component"
+        card_view:cardElevation="@dimen/activity_margin_relative">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+
+                <LinearLayout
+                    android:id="@+id/menu_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_component"
+                    android:background="@drawable/round_box"
+                    android:visibility="gone"
+                    android:elevation="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/recipe_follow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_margin_relative"
+                        android:textColor="@color/colorIconsText"
+                        android:textSize="@dimen/activity_text_gnome"
+                        android:textStyle="bold"
+                        android:text="@string/app_menu_steps"/>
+
+                    <TextView
+                        android:id="@+id/recipe_see_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_margin_relative"
+                        android:textColor="@color/colorIconsText"
+                        android:textSize="@dimen/activity_text_gnome"
+                        android:textStyle="bold"
+                        android:text="@string/app_menu_follow"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/menu_drawable"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_menu"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/mImageViewImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="@string/app_name"
+                    tools:src="@drawable/ic_launcher_background"
+                    android:layout_margin="@dimen/activity_margin_relative"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/activity_margin_relative">
+
+                    <TextView
+                        android:id="@+id/mTextViewName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/activity_text_subheader"
+                        tools:text="@string/app_recipe_name"/>
+
+                    <TextView
+                        android:id="@+id/mTextServings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/activity_text_subparagraph"
+                        tools:text="@string/app_recipe_servings"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
