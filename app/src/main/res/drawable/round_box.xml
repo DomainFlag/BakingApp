@@ -8,10 +8,10 @@
     </solid>
 
     <padding
-        android:left="@dimen/activity_margin_relative"
-        android:top="@dimen/activity_margin_relative"
-        android:right="@dimen/activity_margin_relative"
-        android:bottom="@dimen/activity_margin_relative">
+        android:left="@dimen/activity_margin_sibling"
+        android:top="@dimen/activity_margin_sibling"
+        android:right="@dimen/activity_margin_sibling"
+        android:bottom="@dimen/activity_margin_sibling">
     </padding>
 
     <corners

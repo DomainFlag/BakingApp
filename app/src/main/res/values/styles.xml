@@ -22,4 +22,15 @@
         <item name="android:paddingBottom">@dimen/activity_margin_relative</item>
     </style>
 
+    <style name="menu_option_style">
+        <item name="android:paddingLeft">@dimen/activity_margin_component</item>
+        <item name="android:paddingRight">@dimen/activity_margin_component</item>
+        <item name="android:paddingBottom">@dimen/activity_margin_relative</item>
+        <item name="android:paddingTop">@dimen/activity_margin_relative</item>
+        <item name="android:textColor">@color/colorIconsText</item>
+        <item name="android:textSize">@dimen/activity_text_gnome</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
 </resources>

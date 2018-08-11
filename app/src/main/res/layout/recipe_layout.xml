@@ -20,52 +20,6 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true">
-
-                <LinearLayout
-                    android:id="@+id/menu_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_margin_component"
-                    android:background="@drawable/round_box"
-                    android:visibility="gone"
-                    android:elevation="2dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/recipe_follow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/activity_margin_relative"
-                        android:textColor="@color/colorIconsText"
-                        android:textSize="@dimen/activity_text_gnome"
-                        android:textStyle="bold"
-                        android:text="@string/app_menu_steps"/>
-
-                    <TextView
-                        android:id="@+id/recipe_see_more"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/activity_margin_relative"
-                        android:textColor="@color/colorIconsText"
-                        android:textSize="@dimen/activity_text_gnome"
-                        android:textStyle="bold"
-                        android:text="@string/app_menu_follow"/>
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/menu_drawable"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_menu"/>
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -101,6 +55,49 @@
                         tools:text="@string/app_recipe_servings"/>
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/recipe_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+
+                <LinearLayout
+                    android:id="@+id/menu_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:padding="@dimen/activity_margin_relative"
+                    android:background="@drawable/round_box"
+                    android:elevation="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/recipe_follow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/menu_option_style"
+                        android:text="@string/app_menu_steps"/>
+
+                    <TextView
+                        android:id="@+id/recipe_see_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_menu_follow"
+                        style="@style/menu_option_style"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/menu_drawable"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:padding="@dimen/activity_margin_relative"
+                    android:src="@drawable/ic_menu"/>
 
             </LinearLayout>
 

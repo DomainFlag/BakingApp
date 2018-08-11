@@ -3,10 +3,10 @@ package com.example.cchiv.bakingapp;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.example.cchiv.bakingapp.obj.Recipe;
 import com.example.cchiv.bakingapp.util.BakingParser;
@@ -29,7 +29,11 @@ public class BakingWidget extends AppWidgetProvider {
     private static int mStepIndex = 0;
     private static ArrayList<Recipe> recipes;
 
+    private static Recipe recipe = null;
+
     private final static String TAG = "BakingWidget";
+
+    private final static String ACTION_UPDATE = "android.appwidget.action.APPWIDGET_UPDATE";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -37,34 +41,33 @@ public class BakingWidget extends AppWidgetProvider {
         StringBuilder stringBuilder = bakingParser.readBackingSource();
         recipes = bakingParser.parseBackingSource(stringBuilder);
 
-        Recipe recipe = recipes.get(mStepIndex);
+        if(recipe == null)
+            recipe = recipes.get(mStepIndex);
+
+        Toast.makeText(context, "Updated", Toast.LENGTH_LONG);
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget);
 
         PendingIntent pendingNextIntent = PendingIntent.getBroadcast(context, NEXT_STEP_CODE,
-                createStepIntent(context, NEXT_STEP), PendingIntent.FLAG_UPDATE_CURRENT);
+                createStepIntent(context, NEXT_STEP, appWidgetId), PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.next_widget_step, pendingNextIntent);
 
-
         PendingIntent pendingPreviousIntent = PendingIntent.getBroadcast(context, PREVIOUS_STEP_CODE,
-                createStepIntent(context, PREVIOUS_STEP), PendingIntent.FLAG_UPDATE_CURRENT);
+                createStepIntent(context, PREVIOUS_STEP, appWidgetId), PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.previous_widget_step, pendingPreviousIntent);
 
-        renderRecipe(appWidgetManager, views, recipe, appWidgetId);
-    }
-
-    public static void renderRecipe(AppWidgetManager appWidgetManager, RemoteViews views, Recipe recipe, int appWidgetId) {
-        Picasso.get().load(recipe.getSteps().get(mStepIndex).getVideoURL()).into(views, R.id.widget_thumbnail, new int[] { appWidgetId });
+        Picasso.get().load(recipe.getImage()).into(views, R.id.widget_thumbnail, new int[] { appWidgetId });
         views.setTextViewText(R.id.widget_content, recipe.getSteps().get(mStepIndex).getDescription());
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
-    public static Intent createStepIntent(Context context, String type) {
+    public static Intent createStepIntent(Context context, String type, int appWidgetId) {
         Intent intent = new Intent(context, BakingWidget.class);
-        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] { appWidgetId });
         intent.putExtra("type", type);
 
         return intent;
@@ -72,40 +75,37 @@ public class BakingWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
+        BakingParser bakingParser = new BakingParser(context);
+        StringBuilder stringBuilder = bakingParser.readBackingSource();
+        recipes = bakingParser.parseBackingSource(stringBuilder);
 
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget);
-
-        if(intent.getStringExtra("type") == null)
-            return;
-
-        Recipe recipe = recipes.get(0);
-
-        int appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(
-                new ComponentName(context, BakingWidget.class))[0];
-
-        if(intent.getStringExtra("type").equals(UPDATE_RECIPE)) {
-            int id = intent.getIntExtra("id", -1);
-
-            if(id == -1)
-                return;
-
-            recipe = recipes.get(id);
+        if(intent.getStringExtra("type") == null) {
             mStepIndex = 0;
+            recipe = recipes.get(0);
         } else {
-            if(intent.getStringExtra("type").equals(NEXT_STEP)) {
-                if(mStepIndex < recipe.getSteps().size()-1)
-                    mStepIndex++;
+            if (intent.getStringExtra("type").equals(UPDATE_RECIPE)) {
+                int id = intent.getIntExtra("id", -1);
+
+                mStepIndex = 0;
+                recipe = recipes.get(0);
+
+                for (int it = 0; it < recipes.size(); it++)
+                    if (recipes.get(it).getId() == id)
+                        recipe = recipes.get(it);
             } else {
-                if(mStepIndex > 0)
-                    mStepIndex--;
+                if (intent.getStringExtra("type").equals(NEXT_STEP)) {
+                    if (mStepIndex < recipe.getSteps().size() - 1) {
+                        mStepIndex++;
+                    }
+                } else {
+                    if (mStepIndex > 0) {
+                        mStepIndex--;
+                    }
+                }
             }
         }
 
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-
-        renderRecipe(appWidgetManager, views, recipe, appWidgetId);
+        super.onReceive(context, intent);
     }
 
     @Override

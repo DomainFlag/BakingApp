@@ -43,6 +43,9 @@ public class RecipeFragment extends Fragment {
         View recipeView = inflater.inflate(R.layout.recipe_layout, contentListView, false);
 
         ImageView imageMenuView = recipeView.findViewById(R.id.menu_drawable);
+        LinearLayout linearLayout = recipeView.findViewById(R.id.recipe_menu);
+        linearLayout.setVisibility(View.VISIBLE);
+
         final LinearLayout linearMenuLayout = recipeView.findViewById(R.id.menu_container);
         imageMenuView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +74,8 @@ public class RecipeFragment extends Fragment {
                             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
 
                             context.sendBroadcast(intent);
+
+                            linearMenuLayout.setVisibility(View.GONE);
                         }
                     });
                     break;
@@ -83,11 +88,15 @@ public class RecipeFragment extends Fragment {
                             intent.putExtra("id", recipe.getId());
 
                             startActivity(intent);
+
+                            linearMenuLayout.setVisibility(View.GONE);
                         }
                     });
                     break;
                 }
                 default : {
+                    linearMenuLayout.setVisibility(View.GONE);
+
                     break;
                 }
             }
