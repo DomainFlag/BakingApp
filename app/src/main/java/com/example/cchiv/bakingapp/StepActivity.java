@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.cchiv.bakingapp.obj.Recipe;
 import com.example.cchiv.bakingapp.obj.Step;
-import com.example.cchiv.bakingapp.util.BakingParser;
+import com.example.cchiv.bakingapp.util.BakingLoader;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -26,11 +26,11 @@ import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
 
-public class StepActivity extends AppCompatActivity implements View.OnClickListener {
+public class StepActivity extends AppCompatActivity implements View.OnClickListener, BakingLoader.OnInterfaceCallback {
 
     private PlayerView playerView;
     private ArrayList<Step> steps;
-    private SimpleExoPlayer player;
+    private SimpleExoPlayer player = null;
 
     private View mPreviousStep;
     private View mNextStep;
@@ -42,12 +42,25 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
 
+        Intent intent = getIntent();
+        intent.getIntExtra("id", -1);
+
+        BakingLoader bakingLoader = new BakingLoader(this);
+        getSupportLoaderManager().initLoader(20, null, bakingLoader).forceLoad();
+
         ActionBar actionBar = getActionBar();
         if(actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
+    }
 
+    @Override
+    public void OnInterfaceUpdateCallback(ArrayList<Recipe> recipes) {
         Intent intent = getIntent();
-        Recipe recipe = BakingParser.getRecipe(intent.getIntExtra("id", -1));
+        int id = intent.getIntExtra("id", -1);
+
+        Recipe recipe = getRecipe(recipes, id);
+        if(recipe == null)
+            finish();
 
         mPreviousStep = findViewById(R.id.previous_step);
         mNextStep = findViewById(R.id.next_step);
@@ -63,6 +76,18 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
         playerView.setPlayer(player);
 
         renderStepContent(playerView, mStepIndex);
+    }
+
+    public Recipe getRecipe(ArrayList<Recipe> recipes, int id) {
+        if(id == -1)
+            return null;
+
+        for(int it = 0; it < recipes.size(); it++) {
+            if(recipes.get(it).getId() == id)
+                return recipes.get(it);
+        }
+
+        return null;
     }
 
     public void renderStepContent(PlayerView playerView, int position) {
@@ -116,7 +141,8 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
     public void onDestroy() {
         super.onDestroy();
 
-        player.release();
+        if(player != null)
+            player.release();
     }
 
     @Override
@@ -131,14 +157,16 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
     public void onPause() {
         super.onPause();
 
-        player.setPlayWhenReady(false);
+        if(player != null)
+            player.setPlayWhenReady(false);
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        player.setPlayWhenReady(true);
+        if(player != null)
+            player.setPlayWhenReady(true);
     }
 
     @Override

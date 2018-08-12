@@ -37,6 +37,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         else this.recipeArrayList = recipesArrayList;
     }
 
+    public void swapContent(ArrayList<Recipe> recipes) {
+        this.recipeArrayList = recipes;
+    }
+
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mTextViewName;

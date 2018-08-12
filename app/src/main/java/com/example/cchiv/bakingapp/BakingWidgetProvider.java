@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.example.cchiv.bakingapp.obj.Recipe;
 import com.example.cchiv.bakingapp.util.BakingParser;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Implementation of App Widget functionality.
  */
-public class BakingWidget extends AppWidgetProvider {
+public class BakingWidgetProvider extends AppWidgetProvider {
 
     public final static String PREVIOUS_STEP = "PREVIOUS_STEP";
     public final static String NEXT_STEP = "NEXT_STEP";
@@ -31,7 +30,7 @@ public class BakingWidget extends AppWidgetProvider {
 
     private static Recipe recipe = null;
 
-    private final static String TAG = "BakingWidget";
+    private final static String TAG = "BakingWidgetProvider";
 
     private final static String ACTION_UPDATE = "android.appwidget.action.APPWIDGET_UPDATE";
 
@@ -44,10 +43,8 @@ public class BakingWidget extends AppWidgetProvider {
         if(recipe == null)
             recipe = recipes.get(mStepIndex);
 
-        Toast.makeText(context, "Updated", Toast.LENGTH_LONG);
-
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget_landscape);
 
         PendingIntent pendingNextIntent = PendingIntent.getBroadcast(context, NEXT_STEP_CODE,
                 createStepIntent(context, NEXT_STEP, appWidgetId), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -65,7 +62,7 @@ public class BakingWidget extends AppWidgetProvider {
     }
 
     public static Intent createStepIntent(Context context, String type, int appWidgetId) {
-        Intent intent = new Intent(context, BakingWidget.class);
+        Intent intent = new Intent(context, BakingWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] { appWidgetId });
         intent.putExtra("type", type);

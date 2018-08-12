@@ -63,13 +63,13 @@ public class RecipeFragment extends Fragment {
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(context, BakingWidget.class);
+                            Intent intent = new Intent(context, BakingWidgetProvider.class);
                             intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-                            intent.putExtra("type", BakingWidget.UPDATE_RECIPE);
+                            intent.putExtra("type", BakingWidgetProvider.UPDATE_RECIPE);
                             intent.putExtra("id", recipe.getId());
 
                             int[] appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(
-                                    new ComponentName(context, BakingWidget.class));
+                                    new ComponentName(context, BakingWidgetProvider.class));
 
                             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
 

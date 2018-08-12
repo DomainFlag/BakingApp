@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.cchiv.bakingapp.obj.Recipe;
-import com.example.cchiv.bakingapp.util.BakingParser;
 
 public class DetailedRecipeActivity extends AppCompatActivity {
 
@@ -21,7 +20,7 @@ public class DetailedRecipeActivity extends AppCompatActivity {
         if(id == -1)
             finish();
 
-        Recipe recipe = BakingParser.getRecipe(id);
+        Recipe recipe = null;
 
         if(recipe == null)
             finish();

@@ -1,7 +1,8 @@
 package com.example.cchiv.bakingapp.obj;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.content.ContentValues;
+
+import com.example.cchiv.bakingapp.data.ContentContract;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,16 @@ public class Recipe {
         this.steps = steps;
         this.servings = servings;
         this.image = image;
+    }
+
+    public ContentValues generateContentValues() {
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ContentContract.RecipeEntry.COL_RECIPE_IMAGE, this.image);
+        contentValues.put(ContentContract.RecipeEntry.COL_RECIPE_NAME, this.name);
+        contentValues.put(ContentContract.RecipeEntry.COL_RECIPE_SERVINGS, this.servings);
+
+        return contentValues;
     }
 
     public void setId(int id) {

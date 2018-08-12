@@ -20,8 +20,6 @@ import java.util.ArrayList;
 
 public class BakingParser {
 
-    private static ArrayList<Recipe> recipes = new ArrayList<>();
-
     private static final String TAG = "BakingParser";
 
     private Context context;
@@ -49,23 +47,8 @@ public class BakingParser {
         return stringBuilder;
     }
 
-    public static ArrayList<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public static Recipe getRecipe(int id) {
-        for(int it = 0; it < recipes.size(); it++) {
-            Recipe recipe = recipes.get(it);
-
-            if(recipe.getId() == id)
-                return recipe;
-        }
-
-        return null;
-    }
-
     public ArrayList<Recipe> parseBackingSource(StringBuilder stringBuilder) {
-        recipes.clear();
+        ArrayList<Recipe> recipes = new ArrayList<>();
 
         String recipesString = stringBuilder.toString();
         if(recipesString.isEmpty())

@@ -1,5 +1,9 @@
 package com.example.cchiv.bakingapp.obj;
 
+import android.content.ContentValues;
+
+import com.example.cchiv.bakingapp.data.ContentContract.StepEntry;
+
 public class Step {
 
     private int id;
@@ -15,6 +19,18 @@ public class Step {
         this.videoURL = videoURL;
         this.thumbnailURL = thumbnailURL;
     }
+
+    public ContentValues generateContentValues(long recipeID) {
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(StepEntry.COL_STEP_RECIPE, recipeID);
+        contentValues.put(StepEntry.COL_STEP_DESCRIPTION, this.description);
+        contentValues.put(StepEntry.COL_STEP_SHORT_DESCRIPTION, this.shortDescription);
+        contentValues.put(StepEntry.COL_STEP_THUMBNAIL_URL, this.thumbnailURL);
+        contentValues.put(StepEntry.COL_STEP_VIDEO_URL, this.videoURL);
+
+        return contentValues;
+    };
 
     public int getId() {
         return id;
