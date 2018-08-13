@@ -46,9 +46,10 @@
         <provider
             android:authorities="com.example.android.BakingProvider"
             android:name=".data.BakingProvider"
-            android:exported="false"/>
+            android:exported="true"/>
 
-        <service android:name=".BakingWidgetService"/>
+        <service android:name=".BakingWidgetService"
+                 android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>

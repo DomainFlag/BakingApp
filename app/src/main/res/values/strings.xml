@@ -19,4 +19,6 @@
     <string name="app_menu_follow">Follow</string>
     <string name="app_menu_steps">Steps</string>
 
+    <string name="app_widget_menu">Widget Menu</string>
+
 </resources>

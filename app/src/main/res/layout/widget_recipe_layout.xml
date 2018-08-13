@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/widget_recipe_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="@dimen/activity_text_widget_gnome"
+        android:textColor="@color/colorIconsText"
+        android:paddingTop="@dimen/activity_margin_nano"
+        android:paddingLeft="@dimen/activity_margin_relative"
+        android:paddingStart="@dimen/activity_margin_relative"
+        android:paddingRight="@dimen/activity_margin_relative"
+        android:paddingEnd="@dimen/activity_margin_relative"
+        android:paddingBottom="@dimen/activity_margin_nano"
+        tools:text="@string/app_recipe_name"/>
+
+</LinearLayout>

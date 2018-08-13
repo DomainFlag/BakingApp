@@ -14,7 +14,7 @@
         android:adjustViewBounds="true"/>
 
     <TextView
-        android:id="@+id/widget_content"
+        android:id="@+id/widget_acontent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -50,6 +50,8 @@
                 android:src="@drawable/ic_back_arrow"/>
 
             <TextView
+                android:id="@+id/widget_previous_label"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_margin_relative"
@@ -71,6 +73,8 @@
             tools:ignore="UseCompoundDrawables">
 
             <TextView
+                android:id="@+id/widget_next_label"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_margin_relative"

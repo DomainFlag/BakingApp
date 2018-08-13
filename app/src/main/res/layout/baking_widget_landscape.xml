@@ -2,55 +2,81 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/colorIconsText"
+              android:background="@drawable/round_box_widget"
               android:orientation="horizontal">
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/widget_ingredients"
+        android:divider="@null"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:background="@color/colorPrimaryText">
+        android:paddingTop="@dimen/activity_margin_relative"
+        android:paddingBottom="@dimen/activity_margin_relative"
+        android:paddingLeft="@dimen/activity_margin_sibling"
+        android:paddingStart="@dimen/activity_margin_sibling"
+        android:paddingRight="@dimen/activity_margin_sibling"
+        android:paddingEnd="@dimen/activity_margin_sibling"/>
 
-        <ListView
-            android:id="@+id/widget_ingredients"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="vertical">
+        android:layout_weight="2">
 
         <ImageView
-            android:id="@+id/widget_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:scaleType="fitXY"
-            android:adjustViewBounds="true"
-            tools:src="@drawable/ic_launcher_background"/>
+            android:id="@+id/widget_menu_toggle"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@string/app_widget_menu"
+            android:padding="@dimen/activity_margin_sibling"
+            android:layout_margin="@dimen/activity_margin_relative"
+            android:src="@drawable/ic_cupcake"/>
 
-        <TextView
-            android:id="@+id/widget_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/activity_margin_component"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/activity_margin_sibling"
+            android:layout_marginTop="@dimen/activity_margin_sibling"
+            android:layout_marginBottom="@dimen/activity_margin_sibling"
             android:layout_marginLeft="@dimen/activity_margin_component"
-            android:layout_marginStart="@dimen/activity_margin_component"
             android:layout_marginRight="@dimen/activity_margin_component"
+            android:layout_marginStart="@dimen/activity_margin_component"
             android:layout_marginEnd="@dimen/activity_margin_component"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/activity_text_gnome"
-            tools:text="@string/app_step_previous"/>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widget_recipe_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/activity_text_subparagraph"
+                tools:text="@string/app_step_previous"/>
+
+            <TextView
+                android:id="@+id/widget_short_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorIconsText"
+                android:textSize="@dimen/activity_text_gnome"
+                tools:text="@string/app_step_previous"/>
+
+            <TextView
+                android:id="@+id/widget_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorIconsText"
+                android:textSize="@dimen/activity_text_gnome"
+                tools:text="@string/app_step_previous"/>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
 
             <LinearLayout
                 android:id="@+id/previous_widget_step"
@@ -68,14 +94,16 @@
                     android:layout_height="14dp"
                     android:layout_margin="@dimen/activity_margin_relative"
                     android:contentDescription="Left arrow"
-                    android:src="@drawable/ic_back_arrow"/>
+                    android:src="@drawable/ic_back_arrow_white"/>
 
                 <TextView
+                    android:id="@+id/widget_previous_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/activity_margin_relative"
                     android:textSize="@dimen/activity_text_gnome"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorIconsText"
                     android:text="Previous step"/>
 
             </LinearLayout>
@@ -92,11 +120,13 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <TextView
+                    android:id="@+id/widget_next_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/activity_margin_relative"
                     android:textSize="@dimen/activity_text_gnome"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorIconsText"
                     android:text="Next step"/>
 
                 <ImageView
@@ -105,12 +135,12 @@
                     android:layout_margin="@dimen/activity_margin_relative"
                     android:contentDescription="Right arrow"
                     android:rotation="180"
-                    android:src="@drawable/ic_back_arrow"/>
+                    android:src="@drawable/ic_back_arrow_white"/>
 
             </LinearLayout>
 
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

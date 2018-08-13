@@ -2,41 +2,36 @@ package com.example.cchiv.bakingapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.Loader;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.example.cchiv.bakingapp.data.ContentContract;
 import com.example.cchiv.bakingapp.obj.Recipe;
-import com.example.cchiv.bakingapp.util.BakingLoader;
 import com.example.cchiv.bakingapp.util.BakingUtilities;
 
 import java.util.ArrayList;
 
 public class BakingWidgetService extends RemoteViewsService {
+
+    public static final String TAG = "BakingWidgetService";
+
+    private ArrayList<Recipe> recipes = null;
+
+    private Recipe recipe = null;
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new BakingRemoteViewsFactory(this.getApplicationContext());
+        return new BakingRemoteViewsFactory(this.getApplicationContext(), intent);
     }
 
-    class BakingRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory, BakingLoader.RecipeAsyncTaskLoader.OnLoadCompleteListener<ArrayList<Recipe>>{
+    class BakingRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
         private Context context;
 
-        private Cursor cursor = null;
+        private int recipeId;
 
-        BakingRemoteViewsFactory(Context context) {
+        BakingRemoteViewsFactory(Context context, Intent intent) {
             this.context = context;
-        }
-
-        @Override
-        public void onLoadComplete(@NonNull Loader<ArrayList<Recipe>> loader, @Nullable
-                ArrayList<Recipe> recipes) {
-
+            this.recipeId = intent.getIntExtra("id", -1);
         }
 
         @Override
@@ -44,34 +39,37 @@ public class BakingWidgetService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-            Uri uri = ContentContract.BASE_CONTENT_URI.buildUpon().appendPath(ContentContract.PATH_RECIPES).build();
-            if(cursor != null) cursor.close();
-            Cursor cursor = context.getContentResolver().query(uri, new String[] {
-                    ContentContract.RecipeEntry.COL_RECIPE_NAME,
-                    ContentContract.RecipeEntry.COL_RECIPE_SERVINGS,
-                    ContentContract.RecipeEntry.COL_RECIPE_IMAGE
-            }, null, null, null);
+            BakingUtilities bakingUtilities = new BakingUtilities(context);
+            recipes = bakingUtilities.fetchRecipes();
+
+            for(int it = 0; it < recipes.size(); it++) {
+                if(recipes.get(it).getId() == recipeId)
+                    recipe = recipes.get(it);
+            }
         }
 
         @Override
-        public void onDestroy() {
-
-        }
+        public void onDestroy() {}
 
         @Override
         public int getCount() {
-            if(cursor != null) return cursor.getCount();
-            else return 0;
+            if(recipe != null) return recipe.getIngredients().size() + 1;
+            else return 1;
         }
 
         @Override
         public RemoteViews getViewAt(int i) {
-            BakingUtilities bakingUtilities = new BakingUtilities(context);
-            ArrayList<Recipe> recipes =  bakingUtilities.fetchRecipes();
+            RemoteViews remoteViews;
 
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.recipe_layout);
+            if(i == 0) {
+                remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_label_layout);
+                remoteViews.setTextViewText(R.id.widget_label_layout, "Ingredients");
+            } else if(recipe != null) {
+                String ingredient = recipe.getIngredients().get(i-1).getIngredient();
 
-            remoteViews.setTextViewText(R.id.mTextViewName, recipes.get(0).getName());
+                remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_recipe_layout);
+                remoteViews.setTextViewText(R.id.widget_recipe_name, ingredient);
+            } else return null;
 
             return remoteViews;
         }
@@ -83,17 +81,17 @@ public class BakingWidgetService extends RemoteViewsService {
 
         @Override
         public int getViewTypeCount() {
-            return 0;
+            return 2;
         }
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return i;
         }
 
         @Override
         public boolean hasStableIds() {
-            return false;
+            return true;
         }
     }
 }
