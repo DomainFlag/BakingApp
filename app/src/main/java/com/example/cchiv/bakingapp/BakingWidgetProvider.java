@@ -67,7 +67,7 @@ public class BakingWidgetProvider extends AppWidgetProvider {
     }
 
     public static RemoteViews updateWidgetViews(Context context, int appWidgetId, int width) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget_landscape);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget);
 
         if(width < 300 && width != -1) {
             views.setViewVisibility(R.id.widget_next_label, View.GONE);
@@ -94,9 +94,22 @@ public class BakingWidgetProvider extends AppWidgetProvider {
 
         if(!mMenuToggle) {
             views.setViewVisibility(R.id.widget_ingredients, View.GONE);
-        } else views.setViewVisibility(R.id.widget_ingredients, View.VISIBLE);
+            views.setInt(R.id.widget_menu_toggle, "setImageAlpha", 80);
+        } else {
+            views.setViewVisibility(R.id.widget_ingredients, View.VISIBLE);
+            views.setInt(R.id.widget_menu_toggle, "setImageAlpha", 255);
+        }
 
         Step step = recipe.getSteps().get(mStepIndex);
+        if(mStepIndex == 0) {
+            views.setViewVisibility(R.id.previous_widget_step, View.GONE);
+        } else if(mStepIndex == recipe.getSteps().size()-1) {
+            views.setViewVisibility(R.id.next_widget_step, View.GONE);
+        } else {
+            views.setViewVisibility(R.id.previous_widget_step, View.VISIBLE);
+            views.setViewVisibility(R.id.next_widget_step, View.VISIBLE);
+        }
+
         views.setTextViewText(R.id.widget_recipe_name, recipe.getName());
         views.setTextViewText(R.id.widget_short_description, step.getShortDescription());
         views.setTextViewText(R.id.widget_description, step.getDescription());

@@ -42,9 +42,6 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
 
-        Intent intent = getIntent();
-        intent.getIntExtra("id", -1);
-
         BakingLoader bakingLoader = new BakingLoader(this);
         getSupportLoaderManager().initLoader(20, null, bakingLoader).forceLoad();
 
@@ -79,8 +76,11 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public Recipe getRecipe(ArrayList<Recipe> recipes, int id) {
-        if(id == -1)
-            return null;
+        if(id == -1) {
+            if(recipes.size() > 0)
+                return recipes.get(0);
+            else return null;
+        }
 
         for(int it = 0; it < recipes.size(); it++) {
             if(recipes.get(it).getId() == id)
@@ -105,14 +105,16 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
         TextView stepDescription = findViewById(R.id.step_description);
         stepDescription.setText(step.getDescription());
 
-        if(!step.getVideoURL().isEmpty()) {
-            playerView.setVisibility(View.VISIBLE);
+        if(playerView != null) {
+            if(!step.getVideoURL().isEmpty()) {
+                playerView.setVisibility(View.VISIBLE);
 
-            setMediaPlayer(step);
-        } else {
-            playerView.setVisibility(View.GONE);
+                setMediaPlayer(step);
+            } else {
+                playerView.setVisibility(View.GONE);
 
-            player.setPlayWhenReady(false);
+                player.setPlayWhenReady(false);
+            }
         }
     }
 
@@ -135,6 +137,10 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
         MediaSource mediaSource = extractorMediaSource.createMediaSource(Uri.parse(step.getVideoURL()));
 
         player.prepare(mediaSource);
+    }
+
+    public ArrayList<Step> getSteps() {
+        return steps;
     }
 
     @Override

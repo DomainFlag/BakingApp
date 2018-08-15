@@ -64,7 +64,7 @@ public class RecipeFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(context, BakingWidgetProvider.class);
-                            intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+                            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
                             intent.putExtra("type", BakingWidgetProvider.UPDATE_RECIPE);
                             intent.putExtra("id", recipe.getId());
 
