@@ -24,8 +24,6 @@ import static org.hamcrest.core.IsNot.not;
 @LargeTest
 public class StepActivityButtonsTest {
 
-    private String MY_PACKAGE_NAME = BuildConfig.APPLICATION_ID;
-
     @Rule
     public ActivityTestRule<StepActivity> mStepActivityRule =
             new ActivityTestRule<>(StepActivity.class);
@@ -63,25 +61,4 @@ public class StepActivityButtonsTest {
             }
         };
     }
-
-//    @Rule
-//    public IntentsTestRule<DetailedRecipeActivity> mainActivityIntentsTestRule = new IntentsTestRule<>(
-//            DetailedRecipeActivity.class);
-//
-//    @Before
-//    public void stubAllExternalIntents() {
-//        intending(not(isInternal())).respondWith(new ActivityResult(Activity.RESULT_OK, null));
-//    }
-//
-//    @Test
-//    public void testRecipeFollowIntent() {
-//        onView(withId(R.id.recipe_follow))
-//                .perform(click());
-//
-//        intended(allOf(
-//                hasAction(Intent.ACTION_CALL),
-//                hasExtra("type", BakingWidgetProvider.UPDATE_RECIPE),
-//                hasExtra("id", greaterThan(0)),
-//                toPackage(MY_PACKAGE_NAME)));
-//    }
 }

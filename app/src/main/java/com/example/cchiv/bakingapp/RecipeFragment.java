@@ -25,6 +25,10 @@ public class RecipeFragment extends Fragment {
     private Context context;
     private Recipe recipe;
 
+    private Boolean toggleMenu = false;
+
+    private LinearLayout linearMenuLayout;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -32,10 +36,17 @@ public class RecipeFragment extends Fragment {
         this.context = context;
     }
 
+    public void onToggleMenu(View view) {
+        if(!toggleMenu)
+            linearMenuLayout.setVisibility(View.VISIBLE);
+        else linearMenuLayout.setVisibility(View.GONE);
+
+        toggleMenu = !toggleMenu;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.recipe_detailed_layout, container, false);
 
         ListView contentListView = view.findViewById(R.id.content_list);
@@ -46,15 +57,15 @@ public class RecipeFragment extends Fragment {
         LinearLayout linearLayout = recipeView.findViewById(R.id.recipe_menu);
         linearLayout.setVisibility(View.VISIBLE);
 
-        final LinearLayout linearMenuLayout = recipeView.findViewById(R.id.menu_container);
         imageMenuView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                linearMenuLayout.setVisibility(View.VISIBLE);
+                onToggleMenu(view);
             }
         });
 
 
+        linearMenuLayout = recipeView.findViewById(R.id.menu_container);
         for(int it = 0; it < linearMenuLayout.getChildCount(); it++) {
             TextView textView = (TextView) linearMenuLayout.getChildAt(it);
 
@@ -63,7 +74,7 @@ public class RecipeFragment extends Fragment {
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(context, BakingWidgetProvider.class);
+                            Intent intent = new Intent();
                             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
                             intent.putExtra("type", BakingWidgetProvider.UPDATE_RECIPE);
                             intent.putExtra("id", recipe.getId());
