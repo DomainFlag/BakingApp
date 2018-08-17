@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +67,6 @@ public class RecipeFragment extends Fragment {
             }
         });
 
-
         linearMenuLayout = recipeView.findViewById(R.id.menu_container);
         for(int it = 0; it < linearMenuLayout.getChildCount(); it++) {
             TextView textView = (TextView) linearMenuLayout.getChildAt(it);
@@ -116,8 +114,6 @@ public class RecipeFragment extends Fragment {
                 }
             }
         }
-
-        Log.v("----------------", String.valueOf(recipe == null));
 
         ImageView imageView = (ImageView) recipeView.findViewById(R.id.mImageViewImage);
         Picasso.get()
