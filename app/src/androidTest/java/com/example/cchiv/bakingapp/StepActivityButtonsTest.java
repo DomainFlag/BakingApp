@@ -5,6 +5,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.example.cchiv.bakingapp.activities.StepActivity;
 import com.example.cchiv.bakingapp.obj.Step;
 
 import org.junit.Before;

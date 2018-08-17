@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:name="com.example.cchiv.bakingapp.MasterListFragment"/>
+        android:name="com.example.cchiv.bakingapp.fragments.MasterListFragment"/>
 
     <FrameLayout
         android:id="@+id/recipe_detailed"

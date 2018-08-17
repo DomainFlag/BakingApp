@@ -1,19 +1,24 @@
-package com.example.cchiv.bakingapp;
+package com.example.cchiv.bakingapp.activities;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.cchiv.bakingapp.R;
+import com.example.cchiv.bakingapp.fragments.MasterListFragment;
 import com.example.cchiv.bakingapp.obj.Recipe;
 import com.example.cchiv.bakingapp.obj.Step;
 import com.example.cchiv.bakingapp.util.BakingLoader;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -30,12 +35,17 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
 
     private PlayerView playerView;
     private ArrayList<Step> steps;
-    private SimpleExoPlayer player = null;
+    private ExoPlayer player = null;
 
     private View mPreviousStep;
     private View mNextStep;
 
     private int mStepIndex = 0;
+
+    private boolean mFullscreenMode = false;
+
+    LinearLayout utilitiesLayout;
+    LinearLayout playerViewLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +53,70 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_step);
 
         BakingLoader bakingLoader = new BakingLoader(this);
-        getSupportLoaderManager().initLoader(20, null, bakingLoader).forceLoad();
+        getSupportLoaderManager().initLoader(MasterListFragment.LOADER_RECIPES, null, bakingLoader).forceLoad();
 
-        ActionBar actionBar = getActionBar();
-        if(actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        utilitiesLayout = findViewById(R.id.step_utilities);
+        playerViewLayout = findViewById(R.id.player_view_layout);
+        ImageButton imageButton = findViewById(R.id.exo_custom_full_screen);
+
+        immersive_mode_check(imageButton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                immersive_mode_check(view);
+            }
+        });
+    }
+
+    public void immersive_mode_check(View view) {
+        ImageButton imageButton = (ImageButton) view;
+        if(mFullscreenMode)
+            immersive_mode_enter(imageButton);
+        else immersive_mode_exit(imageButton);
+
+        mFullscreenMode = !mFullscreenMode;
+    }
+
+    public void immersive_mode_enter(ImageButton imageButton) {
+        if(Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        } else {
+            if(Build.VERSION.SDK_INT >= 15) {
+                findViewById(android.R.id.content).setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+            }
+        }
+
+        if(getActionBar() != null)
+            getActionBar().hide();
+
+        if(getSupportActionBar() != null)
+            getSupportActionBar().hide();
+
+        utilitiesLayout.setVisibility(View.GONE);
+
+        imageButton.setImageResource(R.drawable.exo_controls_fullscreen_exit);
+    }
+
+    public void immersive_mode_exit(ImageButton imageButton) {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_VISIBLE);
+
+        if(getActionBar() != null)
+            getActionBar().show();
+
+        if(getSupportActionBar() != null)
+            getSupportActionBar().show();
+
+        utilitiesLayout.setVisibility(View.VISIBLE);
+
+        imageButton.setImageResource(R.drawable.exo_controls_fullscreen_enter);
     }
 
     @Override
@@ -67,7 +136,7 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
 
         steps = recipe.getSteps();
 
-        playerView = findViewById(R.id.step_video);
+        playerView = findViewById(R.id.player_view);
 
         player = createPlayer();
         playerView.setPlayer(player);
@@ -107,11 +176,11 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
 
         if(playerView != null) {
             if(!step.getVideoURL().isEmpty()) {
-                playerView.setVisibility(View.VISIBLE);
+                playerViewLayout.setVisibility(View.VISIBLE);
 
                 setMediaPlayer(step);
             } else {
-                playerView.setVisibility(View.GONE);
+                playerViewLayout.setVisibility(View.GONE);
 
                 player.setPlayWhenReady(false);
             }

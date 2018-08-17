@@ -1,10 +1,13 @@
-package com.example.cchiv.bakingapp;
+package com.example.cchiv.bakingapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.cchiv.bakingapp.fragments.MasterListFragment;
+import com.example.cchiv.bakingapp.R;
+import com.example.cchiv.bakingapp.fragments.RecipeFragment;
 import com.example.cchiv.bakingapp.obj.Recipe;
 
 public class MainActivity extends AppCompatActivity implements MasterListFragment.onListItemListener {
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
                     .replace(R.id.recipe_detailed, recipeFragment)
                     .commit();
         } else {
-            Intent intent = new Intent(this, DetailedRecipeActivity.class);
+            Intent intent = new Intent(this, RecipeActivity.class);
             intent.putExtra("id", recipe.getId());
 
             startActivity(intent);

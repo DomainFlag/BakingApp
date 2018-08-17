@@ -1,4 +1,4 @@
-package com.example.cchiv.bakingapp;
+package com.example.cchiv.bakingapp.fragments;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.cchiv.bakingapp.BakingWidgetProvider;
+import com.example.cchiv.bakingapp.R;
+import com.example.cchiv.bakingapp.activities.StepActivity;
 import com.example.cchiv.bakingapp.adapters.ContentAdapter;
 import com.example.cchiv.bakingapp.obj.Recipe;
 import com.squareup.picasso.Picasso;
@@ -112,6 +116,8 @@ public class RecipeFragment extends Fragment {
                 }
             }
         }
+
+        Log.v("----------------", String.valueOf(recipe == null));
 
         ImageView imageView = (ImageView) recipeView.findViewById(R.id.mImageViewImage);
         Picasso.get()

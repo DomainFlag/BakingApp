@@ -9,6 +9,6 @@
         android:id="@+id/master_list_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.cchiv.bakingapp.MasterListFragment"/>
+        android:name="com.example.cchiv.bakingapp.fragments.MasterListFragment"/>
 
 </LinearLayout>

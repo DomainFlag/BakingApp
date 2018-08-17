@@ -33,4 +33,14 @@
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
+    <style name="exo_custom_full_screen_enter">
+        <item name="android:src">@drawable/ic_full_screen_enter</item>
+        <item name="android:contentDescription">@string/exo_custom_controls_full_screen_enter_description</item>
+    </style>
+
+    <style name="exo_custom_full_screen_exit">
+        <item name="android:src">@drawable/ic_full_screen_exit</item>
+        <item name="android:contentDescription">@string/exo_custom_controls_full_screen_exit_description</item>
+    </style>
+
 </resources>

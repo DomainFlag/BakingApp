@@ -1,16 +1,19 @@
-package com.example.cchiv.bakingapp;
+package com.example.cchiv.bakingapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.cchiv.bakingapp.fragments.MasterListFragment;
+import com.example.cchiv.bakingapp.R;
+import com.example.cchiv.bakingapp.fragments.RecipeFragment;
 import com.example.cchiv.bakingapp.obj.Recipe;
 import com.example.cchiv.bakingapp.util.BakingLoader;
 
 import java.util.ArrayList;
 
-public class DetailedRecipeActivity extends AppCompatActivity implements BakingLoader.OnInterfaceCallback {
+public class RecipeActivity extends AppCompatActivity implements BakingLoader.OnInterfaceCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

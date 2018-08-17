@@ -1,4 +1,4 @@
-package com.example.cchiv.bakingapp;
+package com.example.cchiv.bakingapp.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.cchiv.bakingapp.R;
 import com.example.cchiv.bakingapp.adapters.RecipeAdapter;
 import com.example.cchiv.bakingapp.obj.Recipe;
 import com.example.cchiv.bakingapp.util.BakingLoader;
