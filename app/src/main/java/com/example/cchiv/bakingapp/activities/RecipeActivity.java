@@ -10,6 +10,7 @@ import com.example.cchiv.bakingapp.R;
 import com.example.cchiv.bakingapp.fragments.RecipeFragment;
 import com.example.cchiv.bakingapp.obj.Recipe;
 import com.example.cchiv.bakingapp.util.BakingLoader;
+import com.example.cchiv.bakingapp.util.BakingUtilities;
 
 import java.util.ArrayList;
 
@@ -27,12 +28,11 @@ public class RecipeActivity extends AppCompatActivity implements BakingLoader.On
     @Override
     public void OnInterfaceUpdateCallback(ArrayList<Recipe> recipes) {
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", 0);
+        int id = intent.getIntExtra("id", -1);
 
-        if(id == -1 || id >= recipes.size())
-            finish();
+        if(id == -1) finish();
 
-        Recipe recipe = recipes.get(id);
+        Recipe recipe = BakingUtilities.getRecipe(recipes, id);
 
         RecipeFragment recipeFragment = new RecipeFragment();
         recipeFragment.onRecipeAttach(recipe);

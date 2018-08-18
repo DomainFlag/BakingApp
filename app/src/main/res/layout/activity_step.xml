@@ -13,13 +13,21 @@
         android:id="@+id/player_view_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
-        android:background="@color/colorPrimaryText">
+        android:layout_weight="8"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/step_thumbnail"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/player_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorPrimaryText"
             app:controller_layout_id="@layout/exo_player_control_view"/>
 
     </LinearLayout>
@@ -28,9 +36,9 @@
         android:id="@+id/step_utilities"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:orientation="vertical"
-        android:padding="@dimen/activity_margin_component">
+        android:padding="@dimen/activity_margin_relative">
 
         <TextView
             android:id="@+id/step_description"
@@ -50,6 +58,7 @@
                 android:id="@+id/previous_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_sibling"
                 android:tag="@string/app_step_previous"
                 android:gravity="center_vertical"
                 tools:ignore="UseCompoundDrawables">
@@ -78,6 +87,7 @@
                 android:id="@+id/next_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_sibling"
                 android:tag="@string/app_step_next"
                 android:gravity="center_vertical"
                 tools:ignore="UseCompoundDrawables">

@@ -1,146 +1,156 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/round_box_widget"
-              android:orientation="horizontal">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/widget_ingredients"
-        android:divider="@null"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/widget_utilities"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:paddingTop="@dimen/activity_margin_relative"
-        android:paddingBottom="@dimen/activity_margin_relative"
-        android:paddingLeft="@dimen/activity_margin_sibling"
-        android:paddingStart="@dimen/activity_margin_sibling"
-        android:paddingRight="@dimen/activity_margin_sibling"
-        android:paddingEnd="@dimen/activity_margin_sibling"/>
+        android:background="@drawable/round_box_widget"
+        android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2">
-
-        <ImageView
-            android:id="@+id/widget_menu_toggle"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:contentDescription="@string/app_widget_menu"
-            android:padding="@dimen/activity_margin_sibling"
-            android:layout_margin="@dimen/activity_margin_relative"
-            android:src="@drawable/ic_cupcake"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ListView
+            android:id="@+id/widget_ingredients"
+            android:divider="@null"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:padding="@dimen/activity_margin_sibling"
-            android:layout_marginTop="@dimen/activity_margin_sibling"
-            android:layout_marginBottom="@dimen/activity_margin_sibling"
-            android:layout_marginLeft="@dimen/activity_margin_component"
-            android:layout_marginRight="@dimen/activity_margin_component"
-            android:layout_marginStart="@dimen/activity_margin_component"
-            android:layout_marginEnd="@dimen/activity_margin_component"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/widget_recipe_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/colorBackground"
-                android:textSize="@dimen/activity_text_subparagraph"
-                tools:text="@string/app_step_previous"/>
-
-            <TextView
-                android:id="@+id/widget_short_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/colorIconsText"
-                android:textSize="@dimen/activity_text_gnome"
-                tools:text="@string/app_step_previous"/>
-
-            <TextView
-                android:id="@+id/widget_description"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textColor="@color/colorIconsText"
-                android:textSize="@dimen/activity_text_gnome"
-                tools:text="@string/app_step_previous"/>
-
-        </LinearLayout>
+            android:layout_weight="1"
+            android:paddingTop="@dimen/activity_margin_relative"
+            android:paddingBottom="@dimen/activity_margin_relative"
+            android:paddingLeft="@dimen/activity_margin_sibling"
+            android:paddingStart="@dimen/activity_margin_sibling"
+            android:paddingRight="@dimen/activity_margin_sibling"
+            android:paddingEnd="@dimen/activity_margin_sibling"/>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:id="@+id/widget_steps"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
 
             <LinearLayout
-                android:id="@+id/previous_widget_step"
-                android:layout_margin="@dimen/activity_margin_relative"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:tag="@string/app_step_previous"
-                android:gravity="center_vertical"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_margin="@dimen/activity_margin_relative"
-                    android:contentDescription="Left arrow"
-                    android:src="@drawable/ic_back_arrow_white"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/activity_margin_sibling"
+                android:layout_marginTop="@dimen/activity_margin_sibling"
+                android:layout_marginBottom="@dimen/activity_margin_sibling"
+                android:layout_marginLeft="@dimen/activity_margin_component"
+                android:layout_marginRight="@dimen/activity_margin_component"
+                android:layout_marginStart="@dimen/activity_margin_component"
+                android:layout_marginEnd="@dimen/activity_margin_component"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/widget_previous_label"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/widget_recipe_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/activity_margin_relative"
-                    android:textSize="@dimen/activity_text_gnome"
-                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/colorBackground"
+                    android:textSize="@dimen/activity_text_subparagraph"
+                    tools:text="@string/app_step_previous"/>
+
+                <TextView
+                    android:id="@+id/widget_short_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:textColor="@color/colorIconsText"
-                    android:text="Previous step"/>
+                    android:textSize="@dimen/activity_text_gnome"
+                    tools:text="@string/app_step_previous"/>
+
+                <TextView
+                    android:id="@+id/widget_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/colorIconsText"
+                    android:textSize="@dimen/activity_text_gnome"
+                    tools:text="@string/app_step_previous"/>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/next_widget_step"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_margin_relative"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:tag="@string/app_step_next"
-                android:gravity="center_vertical"
-                tools:ignore="UseCompoundDrawables">
+                android:layout_alignParentBottom="true">
 
-                <TextView
-                    android:id="@+id/widget_next_label"
+                <LinearLayout
+                    android:id="@+id/previous_widget_step"
+                    android:layout_margin="@dimen/activity_margin_relative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:tag="@string/app_step_previous"
+                    android:gravity="center_vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_margin="@dimen/activity_margin_relative"
+                        android:contentDescription="Left arrow"
+                        android:src="@drawable/ic_back_arrow_white"/>
+
+                    <TextView
+                        android:id="@+id/widget_previous_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_margin_relative"
+                        android:textSize="@dimen/activity_text_gnome"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorIconsText"
+                        android:text="Previous step"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/next_widget_step"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/activity_margin_relative"
-                    android:textSize="@dimen/activity_text_gnome"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorIconsText"
-                    android:text="Next step"/>
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:tag="@string/app_step_next"
+                    android:gravity="center_vertical"
+                    tools:ignore="UseCompoundDrawables">
 
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_margin="@dimen/activity_margin_relative"
-                    android:contentDescription="Right arrow"
-                    android:rotation="180"
-                    android:src="@drawable/ic_back_arrow_white"/>
+                    <TextView
+                        android:id="@+id/widget_next_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_margin_relative"
+                        android:textSize="@dimen/activity_text_gnome"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorIconsText"
+                        android:text="Next step"/>
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_margin="@dimen/activity_margin_relative"
+                        android:contentDescription="Right arrow"
+                        android:rotation="180"
+                        android:src="@drawable/ic_back_arrow_white"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/widget_menu_toggle"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:contentDescription="@string/app_widget_menu"
+        android:padding="@dimen/activity_margin_sibling"
+        android:layout_margin="@dimen/activity_margin_relative"
+        android:layout_alignLeft="@id/widget_utilities"
+        android:src="@drawable/ic_cupcake"/>
+
+</RelativeLayout>

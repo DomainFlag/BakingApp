@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.example.cchiv.bakingapp.fragments.MasterListFragment;
 import com.example.cchiv.bakingapp.obj.Recipe;
 import com.example.cchiv.bakingapp.obj.Step;
 import com.example.cchiv.bakingapp.util.BakingLoader;
+import com.example.cchiv.bakingapp.util.BakingUtilities;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -28,6 +30,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -46,6 +49,7 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
 
     LinearLayout utilitiesLayout;
     LinearLayout playerViewLayout;
+    ImageView stepThumbnail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,7 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
 
         utilitiesLayout = findViewById(R.id.step_utilities);
         playerViewLayout = findViewById(R.id.player_view_layout);
+        stepThumbnail = findViewById(R.id.step_thumbnail);
         ImageButton imageButton = findViewById(R.id.exo_custom_full_screen);
 
         immersive_mode_check(imageButton);
@@ -124,7 +129,7 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);
 
-        Recipe recipe = getRecipe(recipes, id);
+        Recipe recipe = BakingUtilities.getRecipe(recipes, id);
         if(recipe == null)
             finish();
 
@@ -142,21 +147,6 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
         playerView.setPlayer(player);
 
         renderStepContent(playerView, mStepIndex);
-    }
-
-    public Recipe getRecipe(ArrayList<Recipe> recipes, int id) {
-        if(id == -1) {
-            if(recipes.size() > 0)
-                return recipes.get(0);
-            else return null;
-        }
-
-        for(int it = 0; it < recipes.size(); it++) {
-            if(recipes.get(it).getId() == id)
-                return recipes.get(it);
-        }
-
-        return null;
     }
 
     public void renderStepContent(PlayerView playerView, int position) {
@@ -177,12 +167,25 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
         if(playerView != null) {
             if(!step.getVideoURL().isEmpty()) {
                 playerViewLayout.setVisibility(View.VISIBLE);
+                playerView.setVisibility(View.VISIBLE);
+                stepThumbnail.setVisibility(View.GONE);
 
                 setMediaPlayer(step);
             } else {
-                playerViewLayout.setVisibility(View.GONE);
-
+                playerView.setVisibility(View.GONE);
                 player.setPlayWhenReady(false);
+
+                if(!step.getThumbnailURL().isEmpty()) {
+                    playerViewLayout.setVisibility(View.VISIBLE);
+                    stepThumbnail.setVisibility(View.VISIBLE);
+
+                    Picasso.get().load(step.getThumbnailURL())
+                            .placeholder(R.drawable.ic_tray)
+                            .error(R.drawable.ic_tray)
+                            .into(stepThumbnail);
+                } else {
+                    playerViewLayout.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -213,14 +216,6 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if(player != null)
-            player.release();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home)
             finish();
@@ -242,6 +237,22 @@ public class StepActivity extends AppCompatActivity implements View.OnClickListe
 
         if(player != null)
             player.setPlayWhenReady(true);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if(player != null)
+            player.release();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(player != null)
+            player.release();
     }
 
     @Override

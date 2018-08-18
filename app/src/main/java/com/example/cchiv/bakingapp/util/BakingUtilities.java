@@ -26,6 +26,21 @@ public class BakingUtilities {
         return this.context;
     }
 
+    public static Recipe getRecipe(ArrayList<Recipe> recipes, int id) {
+        if(id == -1) {
+            if(recipes.size() > 0)
+                return recipes.get(0);
+            else return null;
+        }
+
+        for(int it = 0; it < recipes.size(); it++) {
+            if(recipes.get(it).getId() == id)
+                return recipes.get(it);
+        }
+
+        return null;
+    }
+
     public ArrayList<Recipe> fetchRecipes() {
         Uri uri = ContentContract.BASE_CONTENT_URI.buildUpon().appendPath(ContentContract.PATH_RECIPES).build();
 

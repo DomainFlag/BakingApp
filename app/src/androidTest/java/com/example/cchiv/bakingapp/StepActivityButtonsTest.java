@@ -32,6 +32,7 @@ public class StepActivityButtonsTest {
     @Before
     public void setUpIntentActivity() {
         Intent intent = new Intent();
+        // If there are recipes, chose first if not finish the activity & test failed
         intent.putExtra("id", -1);
         mStepActivityRule.launchActivity(intent);
     }
@@ -52,7 +53,7 @@ public class StepActivityButtonsTest {
                     public void run() {
                         ArrayList<Step> steps = mStepActivityRule.getActivity().getSteps();
                         if(steps != null && steps.size() != 0) {
-                            mStepActivityRule.getActivity().renderStepContent(null, steps.size() - 1);
+                            mStepActivityRule.getActivity().renderStepContent(null, steps.get(steps.size()-1).getId());
 
                             onView(withId(R.id.previous_step)).check(matches(isDisplayed()));
                             onView(withId(R.id.next_step)).check(matches(not(isDisplayed())));

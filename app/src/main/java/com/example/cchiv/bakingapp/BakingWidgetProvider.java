@@ -70,14 +70,30 @@ public class BakingWidgetProvider extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget);
 
         if(width < 300 && width != -1) {
+            views.setViewVisibility(R.id.widget_menu_toggle, View.VISIBLE);
             views.setViewVisibility(R.id.widget_next_label, View.GONE);
             views.setViewVisibility(R.id.widget_previous_label, View.GONE);
-            views.setViewVisibility(R.id.widget_menu_toggle, View.GONE);
-            mMenuToggle = false;
+
+            if(!mMenuToggle) {
+                views.setViewVisibility(R.id.widget_ingredients, View.GONE);
+                views.setViewVisibility(R.id.widget_steps, View.VISIBLE);
+            } else {
+                views.setViewVisibility(R.id.widget_ingredients, View.VISIBLE);
+                views.setViewVisibility(R.id.widget_steps, View.GONE);
+            }
         } else {
+            views.setViewVisibility(R.id.widget_steps, View.VISIBLE);
+            views.setViewVisibility(R.id.widget_ingredients, View.VISIBLE);
+
+            views.setViewVisibility(R.id.widget_menu_toggle, View.GONE);
             views.setViewVisibility(R.id.widget_next_label, View.VISIBLE);
             views.setViewVisibility(R.id.widget_previous_label, View.VISIBLE);
-            views.setViewVisibility(R.id.widget_menu_toggle, View.VISIBLE);
+        }
+
+        if(!mMenuToggle) {
+            views.setInt(R.id.widget_menu_toggle, "setImageAlpha", 80);
+        } else {
+            views.setInt(R.id.widget_menu_toggle, "setImageAlpha", 255);
         }
 
         PendingIntent pendingNextIntent = PendingIntent.getBroadcast(context, NEXT_STEP_CODE,
@@ -92,18 +108,12 @@ public class BakingWidgetProvider extends AppWidgetProvider {
                 createStepIntent(context, TOGGLE_MENU, appWidgetId), PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.widget_menu_toggle, onToggleMenuIntent);
 
-        if(!mMenuToggle) {
-            views.setViewVisibility(R.id.widget_ingredients, View.GONE);
-            views.setInt(R.id.widget_menu_toggle, "setImageAlpha", 80);
-        } else {
-            views.setViewVisibility(R.id.widget_ingredients, View.VISIBLE);
-            views.setInt(R.id.widget_menu_toggle, "setImageAlpha", 255);
-        }
-
         Step step = recipe.getSteps().get(mStepIndex);
         if(mStepIndex == 0) {
             views.setViewVisibility(R.id.previous_widget_step, View.GONE);
+            views.setViewVisibility(R.id.next_widget_step, View.VISIBLE);
         } else if(mStepIndex == recipe.getSteps().size()-1) {
+            views.setViewVisibility(R.id.previous_widget_step, View.VISIBLE);
             views.setViewVisibility(R.id.next_widget_step, View.GONE);
         } else {
             views.setViewVisibility(R.id.previous_widget_step, View.VISIBLE);
@@ -160,19 +170,16 @@ public class BakingWidgetProvider extends AppWidgetProvider {
             return;
 
         if(intent.getStringExtra("type") == null) {
-            mStepIndex = 0;
-            recipe = recipes.get(0);
+            if(recipes.size() > 0 && recipe == null) {
+                mStepIndex = 0;
+                recipe = recipes.get(0);
+            }
         } else {
             switch(intent.getStringExtra("type")) {
                 case UPDATE_RECIPE : {
                     int id = intent.getIntExtra("id", -1);
-
+                    recipe = BakingUtilities.getRecipe(recipes, id);
                     mStepIndex = 0;
-                    recipe = recipes.get(0);
-
-                    for (int it = 0; it < recipes.size(); it++)
-                        if (recipes.get(it).getId() == id)
-                            recipe = recipes.get(it);
 
                     break;
                 }
