@@ -30,9 +30,9 @@ public class RecipeActivity extends AppCompatActivity implements BakingLoader.On
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);
 
-        if(id == -1) finish();
-
         Recipe recipe = BakingUtilities.getRecipe(recipes, id);
+
+        if(recipe == null) finish();
 
         RecipeFragment recipeFragment = new RecipeFragment();
         recipeFragment.onRecipeAttach(recipe);
