@@ -11,26 +11,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity"
-                  android:configChanges="orientation|screenSize">
+
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.RecipeActivity"
-            android:parentActivityName=".activities.MainActivity"
-            android:configChanges="orientation|screenSize">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity"/>
         </activity>
+
         <activity
             android:name=".activities.StepActivity"
-            android:parentActivityName=".activities.MainActivity"
-            android:configChanges="orientation|screenSize">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity"/>
@@ -53,6 +53,7 @@
 
         <service android:name=".BakingWidgetService"
                  android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
     </application>
 
 </manifest>

@@ -21,9 +21,14 @@ import com.example.cchiv.bakingapp.R;
 import com.example.cchiv.bakingapp.activities.StepActivity;
 import com.example.cchiv.bakingapp.adapters.ContentAdapter;
 import com.example.cchiv.bakingapp.obj.Recipe;
+import com.example.cchiv.bakingapp.util.BakingLoader;
 import com.squareup.picasso.Picasso;
 
-public class RecipeFragment extends Fragment {
+public class RecipeFragment extends Fragment implements BakingLoader.OnInterfaceRecipeCallback {
+
+    public static final int LOADER_RECIPES = 50;
+
+    public static final String RECIPE_ID_KEY = "recipe_id";
 
     private Context context;
     private Recipe recipe;
@@ -32,6 +37,10 @@ public class RecipeFragment extends Fragment {
 
     private LinearLayout linearMenuLayout;
 
+    private ListView contentListView;
+    private View recipeView;
+    private ContentAdapter contentAdapter = null;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -39,7 +48,7 @@ public class RecipeFragment extends Fragment {
         this.context = context;
     }
 
-    public void onToggleMenu(View view) {
+    public void onToggleMenu() {
         if(!toggleMenu)
             linearMenuLayout.setVisibility(View.VISIBLE);
         else linearMenuLayout.setVisibility(View.GONE);
@@ -52,18 +61,14 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recipe_detailed_layout, container, false);
 
-        ListView contentListView = view.findViewById(R.id.content_list);
+        contentListView = view.findViewById(R.id.content_list);
+        recipeView = inflater.inflate(R.layout.recipe_layout, contentListView, false);
 
-        View recipeView = inflater.inflate(R.layout.recipe_layout, contentListView, false);
-
-        ImageView imageMenuView = recipeView.findViewById(R.id.menu_drawable);
-        LinearLayout linearLayout = recipeView.findViewById(R.id.recipe_menu);
-        linearLayout.setVisibility(View.VISIBLE);
-
-        imageMenuView.setOnClickListener(new View.OnClickListener() {
+        ((LinearLayout) recipeView.findViewById(R.id.recipe_menu)).setVisibility(View.VISIBLE);
+        ((ImageView) recipeView.findViewById(R.id.menu_drawable)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onToggleMenu(view);
+                onToggleMenu();
             }
         });
 
@@ -115,6 +120,27 @@ public class RecipeFragment extends Fragment {
             }
         }
 
+        contentListView.addHeaderView(recipeView);
+
+        if(savedInstanceState != null) {
+            BakingLoader bakingLoader = new BakingLoader(context, this, savedInstanceState.getInt(RECIPE_ID_KEY));
+            getLoaderManager().initLoader(LOADER_RECIPES, null, bakingLoader).forceLoad();
+        } else {
+            onFragmentDataChanged();
+        }
+
+        return view;
+    }
+
+    @Override
+    public void OnInterfaceRecipeUpdateCallback(Recipe recipe) {
+        this.recipe = recipe;
+
+        if(recipe != null)
+            onFragmentDataChanged();
+    }
+
+    public void onFragmentDataChanged() {
         ImageView imageView = (ImageView) recipeView.findViewById(R.id.mImageViewImage);
         Picasso.get()
                 .load(recipe.getImage())
@@ -128,12 +154,26 @@ public class RecipeFragment extends Fragment {
                 getString(R.string.app_recipe_servings, recipe.getServings())
         );
 
-        contentListView.addHeaderView(recipeView);
+        if(contentAdapter == null) {
+            contentAdapter = new ContentAdapter(context, recipe.getIngredients());
+            contentListView.setAdapter(contentAdapter);
+        } else {
+            contentAdapter.onReplace(recipe.getIngredients());
+            contentAdapter.notifyDataSetChanged();
+        }
+    }
 
-        ContentAdapter contentAdapter = new ContentAdapter(context, recipe.getIngredients());
-        contentListView.setAdapter(contentAdapter);
+    public void onChangeRecipe(Recipe recipe) {
+        this.recipe = recipe;
+        onFragmentDataChanged();
+    };
 
-        return view;
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(recipe != null)
+            outState.putInt(RECIPE_ID_KEY, recipe.getId());
     }
 
     public void onRecipeAttach(Recipe recipe) {

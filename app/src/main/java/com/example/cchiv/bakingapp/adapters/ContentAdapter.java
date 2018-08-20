@@ -73,6 +73,11 @@ public class ContentAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void onReplace(ArrayList<Ingredient> ingredients) {
+        if(this.ingredients != ingredients)
+            this.ingredients = ingredients;
+    }
+
     @Override
     public int getCount() {
         /* We need to inflate also the Label layout if there is any content */

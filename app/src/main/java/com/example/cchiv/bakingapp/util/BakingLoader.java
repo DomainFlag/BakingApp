@@ -19,7 +19,14 @@ public class BakingLoader implements LoaderManager.LoaderCallbacks<ArrayList<Rec
         void OnInterfaceUpdateCallback(ArrayList<Recipe> recipes);
     }
 
-    private OnInterfaceCallback onInterfaceCallback;
+    public interface OnInterfaceRecipeCallback {
+        void OnInterfaceRecipeUpdateCallback(Recipe recipe);
+    }
+
+    private OnInterfaceCallback onInterfaceCallback = null;
+    private OnInterfaceRecipeCallback onInterfaceRecipeCallback = null;
+
+    private int recipeId;
 
     private Context context;
     private RecipeAdapter recipeAdapter = null;
@@ -28,6 +35,12 @@ public class BakingLoader implements LoaderManager.LoaderCallbacks<ArrayList<Rec
         this.context = context;
         this.onInterfaceCallback = (OnInterfaceCallback) context;
     };
+
+    public BakingLoader(Context context, OnInterfaceRecipeCallback onInterfaceRecipeCallback, int recipeId) {
+        this.context = context;
+        this.onInterfaceRecipeCallback = onInterfaceRecipeCallback;
+        this.recipeId = recipeId;
+    }
 
     public BakingLoader(Context context, RecipeAdapter recipeAdapter) {
         this.context = context;
@@ -43,7 +56,15 @@ public class BakingLoader implements LoaderManager.LoaderCallbacks<ArrayList<Rec
     @Override
     public void onLoadFinished(@NonNull Loader<ArrayList<Recipe>> loader, ArrayList<Recipe> recipes) {
         if(recipeAdapter == null) {
-            onInterfaceCallback.OnInterfaceUpdateCallback(recipes);
+            if(onInterfaceCallback != null) {
+                onInterfaceCallback.OnInterfaceUpdateCallback(recipes);
+            }
+
+            if(onInterfaceRecipeCallback != null) {
+                Recipe recipe = BakingUtilities.getRecipe(recipes, this.recipeId);
+
+                onInterfaceRecipeCallback.OnInterfaceRecipeUpdateCallback(recipe);
+            }
         } else {
             recipeAdapter.swapContent(recipes);
             recipeAdapter.notifyDataSetChanged();

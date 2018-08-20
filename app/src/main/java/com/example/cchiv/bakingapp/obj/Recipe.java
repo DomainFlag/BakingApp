@@ -11,7 +11,7 @@ public class Recipe {
     private int id;
     private String name;
     private ArrayList<Ingredient> ingredients;
-    private ArrayList<Step> steps;
+    private ArrayList<Step> steps = null;
     private int servings;
     private String image;
 
