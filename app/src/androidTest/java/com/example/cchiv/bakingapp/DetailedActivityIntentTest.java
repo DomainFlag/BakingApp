@@ -33,7 +33,7 @@ import static org.hamcrest.core.IsNot.not;
 @LargeTest
 public class DetailedActivityIntentTest {
 
-    private String MY_PACKAGE_NAME = BuildConfig.APPLICATION_ID;
+    private final static String MY_PACKAGE_NAME = BuildConfig.APPLICATION_ID;
 
     @Rule
     public IntentsTestRule<RecipeActivity> mainActivityIntentsTestRule = new IntentsTestRule<>(
@@ -54,7 +54,7 @@ public class DetailedActivityIntentTest {
                     if(fragment instanceof RecipeFragment) {
                         RecipeFragment recipeFragment = (RecipeFragment) fragment;
 
-                        recipeFragment.onToggleMenu(null);
+                        recipeFragment.onToggleMenu();
                     }
                 }
             }

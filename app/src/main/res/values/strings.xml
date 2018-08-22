@@ -24,4 +24,6 @@
     <string name="exo_custom_controls_full_screen_enter_description">Fullscreen Enter</string>
     <string name="exo_custom_controls_full_screen_exit_description">Fullscreen Exit</string>
 
+    <string name="exo_player_thumbnail">Player Thumbnail</string>
+
 </resources>

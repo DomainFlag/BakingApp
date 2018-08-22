@@ -21,12 +21,11 @@
         app:buffered_color="@color/colorBuffer"
         app:ad_marker_color="@color/colorPrimaryDark"/>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="4dp">
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -93,12 +92,22 @@
             android:paddingTop="4dp">
 
             <ImageButton
-                android:id="@+id/exo_custom_full_screen"
+                android:id="@+id/exo_screen_enter"
                 android:tint="@color/colorIconsText"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="@dimen/activity_margin_relative"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:padding="@dimen/activity_margin_relative"
+                android:src="@drawable/ic_full_screen_enter"/>
+
+            <ImageButton
+                android:id="@+id/exo_screen_exit"
+                android:visibility="gone"
+                android:tint="@color/colorIconsText"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="@dimen/activity_margin_relative"
                 android:src="@drawable/ic_full_screen_exit"/>
 
         </LinearLayout>

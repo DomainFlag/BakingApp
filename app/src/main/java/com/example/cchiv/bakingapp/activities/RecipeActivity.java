@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.example.cchiv.bakingapp.R;
 import com.example.cchiv.bakingapp.fragments.MasterListFragment;
@@ -16,7 +17,7 @@ public class RecipeActivity extends AppCompatActivity implements BakingLoader.On
 
     private static final String RECIPE_FRAGMENT_KEY = "RECIPE_FRAGMENT_KEY";
 
-    private RecipeFragment recipeFragment;
+    private RecipeFragment recipeFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +25,10 @@ public class RecipeActivity extends AppCompatActivity implements BakingLoader.On
         setContentView(R.layout.activity_detailed_recipe);
 
         BakingLoader bakingLoader;
-
         if(savedInstanceState != null) {
-            bakingLoader = new BakingLoader(this, this, savedInstanceState.getInt("id"));
-
             recipeFragment = (RecipeFragment) getSupportFragmentManager().getFragment(savedInstanceState, RECIPE_FRAGMENT_KEY);
+
+            bakingLoader = new BakingLoader(this, this, savedInstanceState.getInt("id"));
         } else {
             Intent intent = getIntent();
             int id = intent.getIntExtra("id", -1);
